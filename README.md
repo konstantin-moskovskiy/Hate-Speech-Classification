@@ -1,37 +1,33 @@
 HateSpeechClassification
 ==============================
 
-A small project for classifying aggressive messages.
+This project performs the task of binary classification to determine the haight-match (eng). It uses machine learning model optimization tools such as Optuna and Hyperopt, as well as Pandas, Polars, and DVC libraries to track experiments and manage data.
+
+Task
+------------
+The task is to build a model which is able to classify a message - whether it is angry or not
+
+Data
+------------
+This [dataset](https://github.com/intelligence-csd-auth-gr/Ethos-Hate-Speech-Dataset/blob/master/ethos/ethos_data/Ethos_Dataset_Binary.csv) contains contains 998 comments in the dataset alongside with a label about hate speech presence or absence. 565 of them do not contain hate speech, while the rest of them, 433, contain.
+
+'comment' - message in English
+
+'isHate' - label from 0 to 1
 
 Project Organization
 ------------
 
-    ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
     │   ├── external       <- Data from third party sources.
     │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
-    │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
+    ├── requirements.txt   <- The requirements file for reproducing the analysis environment
     │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
+    ├── requirements-linters.txt      <- The requirements file for github actions 
     ├── src                <- Source code for use in this project.
     │   ├── __init__.py    <- Makes src a Python module
     │   │
@@ -43,15 +39,33 @@ Project Organization
     │   │
     │   ├── models         <- Scripts to train models and then use trained models to make
     │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
+    │   │   └── train_predict_model.py
     │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+    └── scripts            <- .sh scripts for the fast .py scripts running
 
 
 --------
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+How to run
+------------
+
+- You need to install all dependencies with 
+```
+pip install -r requirements.txt
+
+### CLI
+
+You can run the project with [.sh file](https://github.com/konstantin-moskovskiy/Hate-Speech-Classification/tree/main/scripts/start.sh):
+
+```
+scripts/start.sh
+```
+
+
+
+
+
+
+
+
+

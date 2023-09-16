@@ -2,6 +2,7 @@
 
 import pickle
 
+import click
 import optuna
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -11,11 +12,30 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelBinarizer
 
 
-def main():
+@click.command()
+@click.option(
+    "-i",
+    "--input_filepath",
+    default="../../data/interim/Ethos_Dataset_Binary_pr.csv",
+    type=click.Path(exists=True),
+)
+@click.option(
+    "-r",
+    "--result_filepath",
+    default="../../models/results.csv",
+    type=click.Path(exists=True),
+)
+@click.option(
+    "-m",
+    "--model_filepath",
+    default="../../models/final_model.pkl",
+    type=click.Path(exists=True),
+)
+def main(input_filepath, result_filepath, model_filepath):
     """Основная функция, выполняющая обучение модели,
     сохранение результатов и вывод лучших параметров."""
 
-    data_frame = pd.read_csv("../../data/interim/Ethos_Dataset_Binary_pr.csv")
+    data_frame = pd.read_csv(input_filepath)
     vectorizer = TfidfVectorizer()
     X = vectorizer.fit_transform(data_frame["comment"])
     y = data_frame["isHate"].astype(int)
@@ -56,7 +76,7 @@ def main():
             solver=study.best_trial.params["solver"],
         )
         final_model.fit(X_train, y_train)
-        filename = "../../models/final_model.pkl"
+        filename = model_filepath
         with open(filename, "wb") as file:
             pickle.dump(final_model, file)
 
@@ -64,7 +84,7 @@ def main():
     study.optimize(objective, n_trials=100)
     save_model(study)
     results_df = study.trials_dataframe()
-    results_df.to_csv("../../models/results.csv", index=False)
+    results_df.to_csv(result_filepath, index=False)
     print("Best trial:", study.best_trial.params)
     print("Best accuracy:", study.best_trial.value)
 
