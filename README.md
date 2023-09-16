@@ -11,9 +11,9 @@ Data
 ------------
 This [dataset](https://github.com/intelligence-csd-auth-gr/Ethos-Hate-Speech-Dataset/blob/master/ethos/ethos_data/Ethos_Dataset_Binary.csv) contains contains 998 comments in the dataset alongside with a label about hate speech presence or absence. 565 of them do not contain hate speech, while the rest of them, 433, contain.
 
-'comment' - message in English
+`comment` - message in English
 
-'isHate' - label from 0 to 1
+`isHate` - label from 0 to 1
 
 Project Organization
 ------------
@@ -52,6 +52,7 @@ How to run
 - You need to install all dependencies with 
 ```
 pip install -r requirements.txt
+```
 
 ### CLI
 
