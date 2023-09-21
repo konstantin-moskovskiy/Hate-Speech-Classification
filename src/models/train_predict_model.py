@@ -1,5 +1,7 @@
 """ Основная программа для обучения модели"""
 
+import mlflow
+import mlflow.sklearn
 import pickle
 
 import click
@@ -44,6 +46,7 @@ def main(input_filepath, result_filepath, model_filepath):
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42
     )
+    mlflow.set_tracking_uri(r"sqlite:///mlflow.db")
 
     def objective(trial):
         """Целевая функция для оптимизации hyperopt.
@@ -54,7 +57,7 @@ def main(input_filepath, result_filepath, model_filepath):
             accuracy: точность модели"""
 
         C = trial.suggest_loguniform("C", 1e-5, 1e5)
-        max_iter = trial.suggest_int("max_iter", 100, 500, 1000)
+        max_iter = trial.suggest_int("max_iter", 100, 500, 100)
         solver = trial.suggest_categorical(
             "solver", ["newton-cg", "lbfgs", "liblinear", "sag", "saga"]
         )
@@ -69,16 +72,23 @@ def main(input_filepath, result_filepath, model_filepath):
 
         Параметры:
             study: объект Study из optuna"""
-
-        final_model = LogisticRegression(
-            C=study.best_trial.params["C"],
-            max_iter=study.best_trial.params["max_iter"],
-            solver=study.best_trial.params["solver"],
-        )
-        final_model.fit(X_train, y_train)
-        filename = model_filepath
-        with open(filename, "wb") as file:
-            pickle.dump(final_model, file)
+        experiment_id = mlflow.create_experiment("training experiment_4")
+        with mlflow.start_run(experiment_id=experiment_id):
+            final_model = LogisticRegression(
+                C=study.best_trial.params["C"],
+                max_iter=study.best_trial.params["max_iter"],
+                solver=study.best_trial.params["solver"],
+            )
+            final_model.fit(X_train, y_train)
+            filename = model_filepath
+            with open(filename, "wb") as file:
+                pickle.dump(final_model, file)
+            mlflow.log_param("C", final_model.C)
+            mlflow.log_param("max_iter", final_model.max_iter)
+            mlflow.log_param("solver", final_model.solver)
+            mlflow.log_metric("accuracy", study.best_trial.value)
+            mlflow.sklearn.log_model(final_model, "model")
+            mlflow.end_run()
 
     study = optuna.create_study(direction="maximize")
     study.optimize(objective, n_trials=100)
