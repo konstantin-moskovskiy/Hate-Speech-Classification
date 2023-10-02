@@ -25,6 +25,10 @@ Project Organization
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
+    ├── app             <- Graphical application PyQT5 for checking the operation of the program
+    │
+    ├── notebooks             <- Notebook with EDA
+    │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment
     │
     ├── requirements-linters.txt      <- The requirements file for github actions 
