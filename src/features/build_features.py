@@ -30,7 +30,7 @@ def preprocessing(text):
     english_stopwords = stopwords.words("english")
     text_tokens = word_tokenize(text)
     text_tokens = [
-        token.strip() for token in text_tokens if token not in english_stopwords
+        tok.strip() for tok in text_tokens if tok not in english_stopwords
     ]
     return " ".join(text_tokens)
 
