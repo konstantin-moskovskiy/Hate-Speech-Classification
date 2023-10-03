@@ -1,10 +1,11 @@
+import pickle
+import sys
+
 import pandas as pd
-from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-import sys
+from PyQt5.QtWidgets import *
 from sklearn.feature_extraction.text import TfidfVectorizer
-import pickle
 
 
 class MainWindow(QMainWindow):
@@ -59,16 +60,23 @@ class MainWindow(QMainWindow):
         vectorizer = TfidfVectorizer()
         X = vectorizer.fit_transform(data_frame["comment"])
         user = X[-1]
-        with open("../models/final_model.pkl", "rb") as file:
-            model = pickle.load(file)
-            res = model.predict(user)
-            res = str(res.tolist()[0])
-            if res == "1":
-                self.lbl2.setStyleSheet("color: red; font-weight: bold;")
-                self.lbl2.setText("You're being rude! Be polite")
-            else:
-                self.lbl2.setStyleSheet("color: green; font-weight: bold;")
-                self.lbl2.setText("I like your message")
+        try:
+            with open("../models/final_model.pkl", "rb") as file:
+                model = pickle.load(file)
+                res = model.predict(user)
+                res = str(res.tolist()[0])
+                if res == "1":
+                    self.lbl2.setStyleSheet("color: red; font-weight: bold;")
+                    self.lbl2.setText("You're being rude! Be polite")
+                else:
+                    self.lbl2.setStyleSheet("color: green; font-weight: bold;")
+                    self.lbl2.setText("I like your message")
+        except:
+            self.lbl2.setStyleSheet("color: orange; font-weight: bold;")
+            self.lbl2.setText(
+                "I can't classify this message right now. "
+                "Let's wait for the update together..."
+            )
 
 
 if __name__ == "__main__":
