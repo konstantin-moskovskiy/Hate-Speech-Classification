@@ -1,12 +1,13 @@
 """ Основная программа, вызывающая функцию обработки данных. """
 
-import click
-import string
 import re
-from nltk import word_tokenize
-from nltk.corpus import stopwords
+import string
+
+import click
 import nltk
 import pandas as pd
+from nltk import word_tokenize
+from nltk.corpus import stopwords
 
 
 def preprocessing(text):
@@ -29,9 +30,8 @@ def preprocessing(text):
     nltk.download("stopwords")
     english_stopwords = stopwords.words("english")
     text_tokens = word_tokenize(text)
-    text_tokens = [
-        tok.strip() for tok in text_tokens if tok not in english_stopwords
-    ]
+    text_tokens = [tok.strip() for tok in text_tokens
+                   if tok not in english_stopwords]
     return " ".join(text_tokens)
 
 
