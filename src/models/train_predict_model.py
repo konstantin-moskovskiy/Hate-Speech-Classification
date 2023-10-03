@@ -1,10 +1,10 @@
 """ Основная программа для обучения модели"""
 
-import mlflow
-import mlflow.sklearn
 import pickle
 
 import click
+import mlflow
+import mlflow.sklearn
 import optuna
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -58,7 +58,7 @@ def main(input_filepath, result_filepath, model_filepath):
             roc-auc: точность модели"""
 
         C = trial.suggest_loguniform("C", 1e-5, 1e5)
-        max_iter = trial.suggest_int("max_iter", 100, 500, 10)
+        max_iter = trial.suggest_int("max_iter", 100, 500)
         solver = trial.suggest_categorical(
             "solver", ["newton-cg", "lbfgs", "liblinear", "sag", "saga"]
         )
@@ -73,7 +73,7 @@ def main(input_filepath, result_filepath, model_filepath):
 
         Параметры:
             study: объект Study из optuna"""
-        experiment_id = mlflow.create_experiment("training experiment_7")
+        experiment_id = mlflow.create_experiment("training experiment_8")
         with mlflow.start_run(experiment_id=experiment_id):
             final_model = LogisticRegression(
                 C=study.best_trial.params["C"],
@@ -92,7 +92,7 @@ def main(input_filepath, result_filepath, model_filepath):
             mlflow.end_run()
 
     study = optuna.create_study(direction="maximize")
-    study.optimize(objective, n_trials=10000)
+    study.optimize(objective, n_trials=1000)
     save_model(study)
     results_df = study.trials_dataframe()
     results_df.to_csv(result_filepath, index=False)
