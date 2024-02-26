@@ -52,14 +52,18 @@ class MainWindow(QMainWindow):
 
     def check(self):
         s = self.text_edit.toPlainText()
+        print(s)
         self.lbl2.setFont(QFont("Arial", 15))
 
         new_row = {"comment": s, "isHate": 0}
         df2 = pd.DataFrame([new_row])
         data_frame = pd.concat([self.data_frame, df2], ignore_index=True)
+        print(data_frame)
         vectorizer = TfidfVectorizer()
         X = vectorizer.fit_transform(data_frame["comment"])
+        print(X)
         user = X[-1]
+        print(user)
         try:
             with open("../models/final_model.pkl", "rb") as file:
                 model = pickle.load(file)
