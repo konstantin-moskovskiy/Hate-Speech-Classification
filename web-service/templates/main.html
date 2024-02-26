@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Define hate speech</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .custom-width {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .purple-bg {
+            background-color: #8a2be2; /* фиолетовый цвет */
+            color: #fff; /* белый цвет текста */
+        }
+
+        .custom-height {
+            height: 150px; /* новая высота поля ввода текста */
+        }
+         .custom-header {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            color: #8a2be2; /* фиолетовый цвет */
+            margin-bottom: 20px;
+        }
+	#clearButton{
+	position: absotute;
+	max-widht:30px;
+	max-heigth:30px;
+	color:red;
+	widht:30px;
+        heigth:30px:
+	background-color: rgba(0, 0, 0, 0);
+	border: none;	
+}
+    </style>
+</head>
+
+<body>
+    <div class="container my-4 custom-width">
+        <div class="row">
+            <div class="col">
+                <p class="custom-header">Define hate speech</p>
+            </div>
+        </div>
+	<form method="post">
+        <div class="row">
+            <div class="col">
+                <input type="text" name="user_text" id="textInput" class="form-control white-bg custom-height border border-dark" {% if txt %} value="{{txt}}" {% endif %}></input>
+            </div>
+<button id="clearButton" type="button" >X</button>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <p class="text-center" {% if color %} style=" color:{{color}};" {% endif %}>{% if res %} {{res}} {% endif %}</p>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col">
+                <button type="submit" class="btn btn-block btn-primary purple-bg">Check</button>
+            </div>
+        </div>
+	</form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+document.getElementById("clearButton").onclick = function(e) {
+document.getElementById("textInput").value = "";
+}
+ </script>
+</body>
+
+</html>
