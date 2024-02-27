@@ -11,30 +11,22 @@ from transformers import BertForSequenceClassification, BertTokenizer
 @click.option(
     "-i",
     "--input_filepath",
-    default="../../data/interim/Ethos_Dataset_Binary_pr.csv",
-    # type=click.Path(exists=True),
+    default="../../data/interim/Ethos_Dataset_Binary_pr.csv"
 )
 @click.option(
     "-r",
     "--result_filepath",
-    default="../../models/results_BERT.csv",
-    # type=click.Path(exists=True),
+    default="../../models/results_BERT.csv"
 )
 @click.option(
     "-m",
     "--model_filepath",
-    default="../../models/final_model_BERT.pkl",
-    # type=click.Path(exists=True),
+    default="../../models/final_model_BERT.pkl"
 )
-def main(input_filepath, result_filepath, model_filepath):
+def main(input_filepath):
     data_frame = pd.read_csv(input_filepath)
     tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
-    # model = BertModel.from_pretrained("bert-base-uncased")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    def preprocess_text(text):
-        tokens = tokenizer.encode(text, add_special_tokens=True)
-        return tokens
 
     def prepare_input_data(inputs):
         """Подготовка входных данных для модели BERT."""
@@ -99,10 +91,6 @@ def main(input_filepath, result_filepath, model_filepath):
             avg_loss = total_loss / len(dataloader)
             print("Epoch:", epoch + 1, "Loss:", avg_loss)
 
-    # def save_model():
-    #     print()
-    #     model.save_pretrained(model_filepath)
-
     X = data_frame["comment"].tolist()
     y = data_frame["isHate"].apply(round).astype(int).tolist()
     X_train, X_test, y_train, y_test = train_test_split(
@@ -111,7 +99,6 @@ def main(input_filepath, result_filepath, model_filepath):
 
     train_dataloader = prepare_input_data(X_train)
     train_model(train_dataloader)
-    # save_model()
 
     print("Training complete")
 

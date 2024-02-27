@@ -53,14 +53,12 @@ def data_processing(input_filepath, output_filepath):
 @click.option(
     "-i",
     "--input_filepath",
-    default="../../data/external/Ethos_Dataset_Binary.csv",
-    # type=click.Path(exists=True),
+    default="../../data/external/Ethos_Dataset_Binary.csv"
 )
 @click.option(
     "-o",
     "--output_filepath",
-    default="../../data/interim/Ethos_Dataset_Binary_pr.csv",
-    # type=click.Path(exists=True),
+    default="../../data/interim/Ethos_Dataset_Binary_pr.csv"
 )
 def main(input_filepath, output_filepath):
     data_processing(input_filepath, output_filepath)
