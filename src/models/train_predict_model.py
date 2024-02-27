@@ -18,20 +18,17 @@ from sklearn.preprocessing import LabelBinarizer
 @click.option(
     "-i",
     "--input_filepath",
-    default="../../data/interim/Ethos_Dataset_Binary_pr.csv",
-    # type=click.Path(exists=True),
+    default="../../data/interim/Ethos_Dataset_Binary_pr.csv"
 )
 @click.option(
     "-r",
     "--result_filepath",
-    default="../../models/results.csv",
-    # type=click.Path(exists=True),
+    default="../../models/results.csv"
 )
 @click.option(
     "-m",
     "--model_filepath",
-    default="../../models/final_model.pkl",
-    # type=click.Path(exists=True),
+    default="../../models/final_model.pkl"
 )
 def main(input_filepath, result_filepath, model_filepath):
     """Основная функция, выполняющая обучение модели,
